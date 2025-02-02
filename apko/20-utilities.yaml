@@ -1,0 +1,21 @@
+include: ./apko/10-toolbx-defaults.yaml
+
+contents:
+  packages:
+    # Standard utilities / usability
+    - bat
+    - difftastic
+    - direnv
+    - fzf
+    - gh
+    - git
+    - hivemind
+    - just
+    - jq
+    - neovim
+    - ripgrep
+    - starship
+    - zoxide
+
+annotations:
+  dev.husin.devbox.layer: "20-utilities"

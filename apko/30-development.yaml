@@ -1,0 +1,14 @@
+include: apko/20-utilities.yaml
+
+contents:
+  packages:
+    # Development dependencies
+    - nodejs-23
+    - go
+    - ruby-3.4
+    - sqlite
+    - sqlite-dev
+    - vite
+
+annotations:
+  dev.husin.devbox.layer: "30-development"

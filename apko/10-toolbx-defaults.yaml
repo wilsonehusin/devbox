@@ -1,0 +1,71 @@
+include: apko/00-base.yaml
+
+contents:
+  repositories:
+    - dist/packages
+  packages:
+    - sudo-nopasswd
+    # Toolbx defaults
+    - bash
+    - bc
+    - busybox
+    - bzip2
+    - coreutils
+    - curl
+    - diffutils
+    - findmnt
+    - findutils
+    - gnupg
+    - gnutar
+    - gpg
+    - iproute2
+    - iputils
+    - keyutils
+    - less
+    - libcap
+    - libcap-utils
+    - locate
+    - man-db
+    - mesa
+    - mount
+    - ncurses
+    - ncurses-terminfo
+    - net-tools
+    - openssh-client
+    - pigz
+    - posix-libc-utils
+    - procps
+    - rsync
+    - shadow
+    - sudo
+    - tcpdump
+    - tree
+    - tzdata
+    - umount
+    - unzip
+    - util-linux
+    - util-linux-login
+    - util-linux-misc
+    - vulkan-loader
+    - wget
+    - xauth
+    - xz
+    - zip
+
+environment:
+  PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+paths:
+  # Toolbx requires /media to exist
+  - path: /media
+    type: directory
+    permissions: 0o755
+  # Link os-release for toolbx info
+  - path: /usr/lib/os-release
+    type: hardlink
+    source: /etc/os-release
+    permissions: 0o644
+
+annotations:
+  com.github.containers.toolbox: "true"
+  dev.husin.devbox.layer: "10-toolbx-defaults"

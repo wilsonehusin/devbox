@@ -9,38 +9,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Versions
-        id: tag-versions
-        run: |
-          date +"year=%Y" >> $GITHUB_OUTPUT
-          date +"week=%U" >> $GITHUB_OUTPUT
-          date +"tag=%Yw%U-${{ github.sha }}" >> $GITHUB_OUTPUT
-
-          packages=$(cat packages/* | sha256sum)
-          echo "packages_sum=$packages" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v4
-      - name: Build with Buildah
-        id: build-image
-        uses: redhat-actions/buildah-build@v2
+
+      - name: Setup workspace
+        id: setup
+        run: |
+          # Pre-create output directory
+          mkdir -p dist/packages
+
+          # Populate packages
+          configs=$(ls melange/*.yaml | xargs | tr ' ' ',')
+          echo "multi_config=$configs" >> $GITHUB_OUTPUT
+
+          # Version
+          date --utc +"release_week=%Yw%U" >> $GITHUB_OUTPUT
+          date --utc +"tag=%Yw%U-${{ github.sha }}" >> $GITHUB_OUTPUT
+
+      - uses: chainguard-dev/actions/melange-build@main
         with:
-          image: ${{ github.repository }}
-          tags: |
-            git-${{ github.sha }}
-            packages-${{ steps.tag-versions.outputs.packages_sum }}
-            ${{ steps.tag-versions.outputs.year }}
-            ${{ steps.tag-versions.outputs.tag }}
-          containerfiles: |
-            ./Containerfile
-          build-args: |
-            VERSION=${{ github.sha }}
-      - name: Push to GitHub Container Registry
-        id: push-to-registry
-        uses: redhat-actions/push-to-registry@v2
+          archs: x86_64,aarch64
+          multi-config: ${{ steps.setup.outputs.multi_config }}
+          sign-with-temporary-key: true
+          repository-path: dist/packages
+          git-commit: ${{ github.sha }}
+          git-repo-url: github.com/${{ github.repository }}
+
+      - uses: chainguard-images/actions/apko-publish@main
         with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }}
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          registry: ghcr.io
-      - name: Print image url
-        run: echo "Image pushed to ${{ steps.push-to-registry.outputs.registry-paths }}"
+          archs: x86_64,aarch64
+          tag: ghcr.io/${{ github.repository }}:${{ steps.setup.outputs.tag }}
+          keyring-append: melange.rsa.pub

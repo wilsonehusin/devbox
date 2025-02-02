@@ -1,0 +1,31 @@
+package:
+  name: sudo-nopasswd
+  version: 0
+  epoch: 1
+  description: Allow toolbx user to run sudo without password
+  copyright:
+    - license: Not-Applicable
+  target-architecture:
+    - x86_64
+    - aarch64
+  dependencies:
+    runtime:
+      - sudo
+
+environment:
+  contents:
+    keyring:
+      - "https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"
+    repositories:
+      - "https://packages.wolfi.dev/os"
+    packages:
+      - wolfi-base
+      - wolfi-baselayout
+      - sudo
+
+pipeline:
+  - runs: |
+      # Ensure directory exists
+      mkdir -p ${{targets.contextdir}}/etc/sudoers.d
+      # Allow sudo with out password
+      echo "%wheel ALL=(ALL) NOPASSWD: ALL" > ${{targets.contextdir}}/etc/sudoers.d/toolbx

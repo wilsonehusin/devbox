@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+APKO_CMD=${APKO_CMD:-apko}
+
+if ! command -v ${APKO_CMD} &>/dev/null; then
+  read -e -p "$(tput setaf 1)apko$(tput sgr0) is not installed, run it in container? [y/N] " choice
+  [[ "$choice" == [Yy]* ]] || exit 1
+
+  set +u
+  CONTAINER_RUNNER=${CONTAINER_RUNNER}
+
+  if [[ -z "${CONTAINER_RUNNER}" ]]; then
+    if command -v podman &>/dev/null; then
+      CONTAINER_RUNNER="podman"
+    elif command -v docker &>/dev/null; then
+      CONTAINER_RUNNER="docker"
+    fi
+  fi
+
+
+  if [[ -z "${CONTAINER_RUNNER}" ]]; then
+    echo "ERROR: No valid container runner found."
+    exit 1
+  fi
+  set -u
+
+  echo "Found $(tput setaf 4)$(tput bold)${CONTAINER_RUNNER}$(tput sgr0) to use as container executor."
+  APKO_CMD="${CONTAINER_RUNNER} run --privileged --name build-apko --rm -v ${PWD}:/build -w /build -it cgr.dev/chainguard/apko"
+fi
+
+build_cmd="${APKO_CMD} build apko.yaml ${CONTAINER_TAG} dist/images/devbox.tar.gz --sbom=false --include-paths=apko,dist/packages --ignore-signatures=true --cache-dir=tmp"
+
+printf "Running build command...\n  $(tput setaf 3)%s$(tput sgr0)\n" "${build_cmd}"
+
+${build_cmd}

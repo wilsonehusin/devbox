@@ -1,0 +1,2 @@
+# Alias to multi-layer apko configuration.
+include: apko/30-development.yaml
