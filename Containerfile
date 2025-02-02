@@ -7,9 +7,9 @@ LABEL com.github.containers.toolbox="true" \
       org.opencontainers.image.description="Personal development environment (toolbox / distrobox) based on Wolfi OS." \
       org.opencontainers.image.version=$VERSION
 
-RUN --mount=type=bind,src=.,dst=/var/bench,relabel=shared apk update \
+RUN --mount=type=bind,src=./packages,dst=/var/bench-packages,relabel=shared apk update \
  && apk upgrade \
- && cat /var/bench/packages-* | grep -v '^# ' | xargs apk add
+ && cat /var/bench-packages/* | grep -v '^# ' | xargs apk add
 
 # 1. Enable passwordless sudo.
 #    using sudoers instead of toolbox filename here, so that in case of rootful
