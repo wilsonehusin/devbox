@@ -3,6 +3,7 @@ difftastic
 direnv
 fzf
 gh
+git
 hivemind
 just
 jq
