@@ -15,13 +15,20 @@ jobs:
           date +"year=%Y" >> $GITHUB_OUTPUT
           date +"week=%U" >> $GITHUB_OUTPUT
           date +"tag=%Yw%U-${{ github.sha }}" >> $GITHUB_OUTPUT
+
+          packages=$(cat packages/* | sha256sum)
+          echo "packages_sum=$packages" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v4
       - name: Build with Buildah
         id: build-image
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ github.repository }}
-          tags: git-${{ github.sha }} ${{ steps.tag-versions.outputs.year }} ${{ steps.tag-versions.outputs.tag }}
+          tags: |
+            git-${{ github.sha }}
+            packages-${{ steps.tag-versions.outputs.packages_sum }}
+            ${{ steps.tag-versions.outputs.year }}
+            ${{ steps.tag-versions.outputs.tag }}
           containerfiles: |
             ./Containerfile
           build-args: |
