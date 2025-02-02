@@ -4,6 +4,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest
 ARG VERSION=latest
 LABEL com.github.containers.toolbox="true" \
       org.opencontainers.image.url="ghcr.io/wilsonehusin/bench" \
+      org.opencontainers.image.source="https://github.com/wilsonehusin/bench" \
       org.opencontainers.image.description="Personal development environment (toolbox / distrobox) based on Wolfi OS." \
       org.opencontainers.image.version=$VERSION
 
