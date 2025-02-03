@@ -39,3 +39,10 @@ jobs:
           archs: x86_64,aarch64
           tag: ghcr.io/${{ github.repository }}:${{ steps.setup.outputs.tag }}
           keyring-append: melange.rsa.pub
+
+      - name: Setup crane
+        uses: imjasonh/setup-crane@v0.4
+
+      - name: Re-tag image with latest
+        run: |
+          crane tag ghcr.io/${{ github.repository }}:${{ steps.setup.outputs.tag }} latest
