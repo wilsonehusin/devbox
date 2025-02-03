@@ -9,7 +9,7 @@ This was inspired by [the wolfi version in toolbx-images/images](https://github.
 
 ## Usage
 
-```shellsession
+```shell-session
 # toolbox create --image ghcr.io/wilsonehusin/devbox:latest devbox
 # toolbox enter devbox
 ```
