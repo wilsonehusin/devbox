@@ -54,6 +54,8 @@ contents:
 
 environment:
   PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  COLORTERM: "truecolor"
+  TERM: "xterm-256color"
 
 paths:
   # Toolbx requires /media to exist
