@@ -4,12 +4,17 @@ contents:
   packages:
     # Development dependencies
     - nodejs-23
-    - google-cloud-sdk
     - go
     - ruby-3.4
     - sqlite
     - sqlite-dev
     - vite
+    # Google Cloud local development kit
+    - google-cloud-sdk
+    - openjdk-18-default-jdk  # Required for Firestore emulator
+
+environment:
+  JAVA_HOME: /usr/lib/jvm/default-jvm
 
 annotations:
   dev.husin.devbox.layer: "30-development"
