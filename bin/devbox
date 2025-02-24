@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+yellow=$(tput setaf 3)
+magenta=$(tput setaf 5)
+cyan=$(tput setaf 6)
+bold=$(tput bold)
+reset=$(tput sgr0)
+
+IMAGE="${IMAGE:-ghcr.io/wilsonehusin/devbox:latest}"
+NAME="${NAME:-devbox}"
+
+function create() {
+  toolbox create --image "${IMAGE}" "${NAME}"
+}
+
+function enter() {
+  toolbox enter "${NAME}"
+}
+
+function reset() {
+  podman stop "${NAME}"
+  podman rm "${NAME}"
+  podman image rm "${IMAGE}"
+}
+
+function rebuild() {
+  gh workflow run --repo wilsonehusin/devbox toolbx
+  gh workflow view toolbx
+}
+
+function run() {
+  PS4='${bold}${cyan}$(basename $0)${reset}${magenta}:$(printf %03d $LINENO)${reset}${yellow}@${bold}$FUNCNAME${reset} '
+  set -x
+  $@
+}
+
+run $@
