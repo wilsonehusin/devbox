@@ -4,6 +4,7 @@ contents:
   packages:
     # Development dependencies
     - nodejs-23
+    - google-cloud-sdk
     - go
     - ruby-3.4
     - sqlite
