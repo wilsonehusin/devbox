@@ -4,7 +4,7 @@ contents:
   packages:
     # Google Cloud local development kit
     - google-cloud-sdk
-    - openjdk-21-default-jdk  # Required for Firestore emulator
+    - openjdk-24-default-jdk  # Required for Firestore emulator
 
 environment:
   JAVA_HOME: /usr/lib/jvm/default-jvm
