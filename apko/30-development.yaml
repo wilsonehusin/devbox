@@ -8,6 +8,8 @@ contents:
     - ruby-3.4
     - sqlite
     - sqlite-dev
+    - litestream
+    - litefs
     - vite
 
 annotations:
