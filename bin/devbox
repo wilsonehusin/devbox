@@ -27,7 +27,11 @@ function reset() {
 
 function rebuild() {
   gh workflow run --repo wilsonehusin/devbox toolbx
-  gh workflow view toolbx
+  builds
+}
+
+function builds() {
+  gh run list --repo wilsonehusin/devbox --workflow toolbx
 }
 
 function run() {
