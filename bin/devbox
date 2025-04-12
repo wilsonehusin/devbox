@@ -19,6 +19,12 @@ function enter() {
   toolbox enter "${NAME}"
 }
 
+function run() {
+  local cwd=$(pwd | sed 's|^/var||')
+
+  podman exec -u "${USER}" -w "/var${cwd}" -it "${NAME}" direnv exec . $@
+}
+
 function reset() {
   podman stop "${NAME}"
   podman rm "${NAME}"
@@ -34,10 +40,13 @@ function builds() {
   gh run list --repo wilsonehusin/devbox --workflow toolbx
 }
 
-function run() {
+function main() {
   PS4='${bold}${cyan}$(basename $0)${reset}${magenta}:$(printf %03d $LINENO)${reset}${yellow}@${bold}$FUNCNAME${reset} '
-  set -x
+  set +u
+  [[ -v $SILENT ]] && set -x || true
+  set -u
+
   $@
 }
 
-run $@
+main $@
