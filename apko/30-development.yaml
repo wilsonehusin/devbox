@@ -10,6 +10,7 @@ contents:
     - libvips-dev
     - litestream
     - litefs
+    - pnpm
     - vite
 
 annotations:
