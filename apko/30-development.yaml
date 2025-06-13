@@ -5,7 +5,7 @@ contents:
     # Development dependencies
     - nodejs-23
     - go
-    - ruby-3.4
+    - ruby-3.4-dev
     - sqlite-dev
     - libvips-dev
     - litestream
