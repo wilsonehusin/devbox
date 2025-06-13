@@ -12,6 +12,7 @@ contents:
     - litefs
     - pnpm
     - vite
+    - yaml-dev
 
 annotations:
   dev.husin.devbox.layer: "30-development"
