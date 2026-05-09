@@ -1,0 +1,45 @@
+package:
+  name: direnv
+  version: "2.37.1"
+  epoch: 1 # CVE-2025-47907
+  description: unclutter your .profile
+  copyright:
+    - license: MIT
+
+environment:
+  contents:
+    keyring:
+      - "https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"
+    repositories:
+      - "https://packages.wolfi.dev/os"
+    packages:
+      - go
+  environment:
+    CGO_ENABLED: "0"
+
+pipeline:
+  - uses: git-checkout
+    with:
+      expected-commit: 7590ee2442104060bb11eedebd7bd6daf3d88fcd
+      repository: https://github.com/direnv/direnv
+      tag: v${{package.version}}
+
+  - uses: go/build
+    with:
+      packages: .
+      output: direnv
+
+  - uses: strip
+
+update:
+  enabled: true
+  github:
+    identifier: direnv/direnv
+    strip-prefix: v
+
+test:
+  pipeline:
+    - runs: |
+        direnv version
+        direnv --version
+        direnv --help

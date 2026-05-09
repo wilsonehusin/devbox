@@ -1,4 +1,4 @@
-include: ./apko/10-toolbx-defaults.yaml
+include: ./apko/10-tool-defaults.yaml
 
 contents:
   packages:
