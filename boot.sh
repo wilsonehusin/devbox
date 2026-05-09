@@ -16,9 +16,23 @@ EOF
 
 mkdir -p "${HOME}/.config/nvim"
 cat <<EOF >"${HOME}/.config/nvim/init.vim"
-  set runtimepath^=~/.vim runtimepath+=~/.vim/after
-  let &packpath=&runtimepath
-  source ~/.vimrc
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath=&runtimepath
+source ~/.vimrc
+EOF
+cat <<-EOF >"${HOME}/.config/jj/config.toml"
+"\$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[user]
+name = "${GIT_AUTHOR_NAME}"
+email = "${GIT_AUTHOR_EMAIL}"
+
+[git]
+write-changes-id-header = true
+colocate = false
+
+[aliases]
+tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
 EOF
 
 arch=$(uname -m)
@@ -41,4 +55,5 @@ if [[ "${rustarch}" != "skip" ]]; then
   tar -zxvf /tmp/jj.tar.gz ./jj
   mkdir -p "${HOME}/.local/bin"
   mv ./jj "${HOME}/.local/bin/"
+
 fi
