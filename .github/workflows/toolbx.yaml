@@ -1,6 +1,8 @@
 name: toolbx
 
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: "01 00 * * 6" # 00:01 every Saturday UTC
   workflow_dispatch:
