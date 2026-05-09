@@ -58,6 +58,10 @@ environment:
   TERM: "xterm-256color"
 
 paths:
+  # Coder requires /etc/skel to exist
+  - path: /etc/skel
+    type: directory
+    permissions: 0o755
   # Toolbx requires /media to exist
   - path: /media
     type: directory
@@ -67,6 +71,16 @@ paths:
     type: hardlink
     source: /etc/os-release
     permissions: 0o644
+
+accounts:
+  groups:
+    - groupname: dev
+      gid: 10000
+  users:
+    - username: dev
+      uid: 10000
+      shell: /bin/bash
+  run-as: dev
 
 annotations:
   com.github.containers.toolbox: "true"
