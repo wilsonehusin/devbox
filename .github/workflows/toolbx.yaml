@@ -20,7 +20,7 @@ jobs:
           mkdir -p dist/packages
 
           # Populate packages
-          configs=$(ls melange/*.yaml | xargs | tr ' ' ',')
+          configs=$(ls melange/*.yaml | grep -v jj.yaml | xargs | tr ' ' ',')
           echo "multi_config=$configs" >> $GITHUB_OUTPUT
 
           # Version

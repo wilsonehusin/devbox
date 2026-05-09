@@ -1,3 +1,5 @@
+# Excluded in GitHub Actions
+
 package:
   name: jj
   version: "0.41.0"
