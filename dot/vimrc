@@ -1,0 +1,170 @@
+" Automatically install and setup vim-plug
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Define vim-plug packages
+call plug#begin()
+  " Integrations
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/vim-easy-align'
+  Plug 'pgr0ss/vim-github-url'
+  " Plug 'github/copilot.vim'
+
+  " LSP / Linters
+  Plug 'dense-analysis/ale'
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'mattn/vim-lsp-settings'
+
+  " Programming languages
+  Plug 'fatih/vim-go', { 'branch': 'master', 'do': ':GoUpdateBinaries' }
+  Plug 'LnL7/vim-nix'
+  Plug 'vim-crystal/vim-crystal'
+  Plug 'hashivim/vim-terraform'
+  Plug 'NoahTheDuke/vim-just'
+
+  " View
+  Plug 'morhetz/gruvbox'
+  Plug 'preservim/nerdtree'
+  Plug 'ryanoasis/vim-devicons'
+call plug#end()
+
+set t_Co=256
+let g:gruvbox_contrast_dark = 'hard'
+color gruvbox
+
+if !has('nvim')
+  set term=xterm-256color
+endif
+syntax enable
+set tabstop=2       " The width of a TAB, still it is a \t.
+                    " Vim will interpret it to be having such width.
+set shiftwidth=2    " Indents will have such width
+set softtabstop=2   " Sets the number of columns for a TAB
+set nohidden
+set foldmethod=syntax
+set expandtab
+set smarttab
+set nocindent
+set foldmethod=syntax
+set number
+set relativenumber
+set showcmd
+set cursorline
+set wildmenu
+set showmatch
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set filetype=unix
+set autoread
+set backspace=indent,eol,start
+
+nnoremap j gj
+nnoremap k gk
+
+set mouse=a
+if !has('nvim')
+  if has("mouse_sgr")
+    set ttymouse=sgr
+  else
+    set ttymouse=xterm2
+  end
+end
+
+" Always assume *.gvy files are Groovy-compliant file
+autocmd BufNewFile,BufRead,BufReadPost *.gvy set syntax=groovy
+" Svelte files are HTML / JS combination
+autocmd BufNewFile,BufRead,BufReadPost *.svelte set syntax=html
+" PostCSS is basically CSS
+autocmd BufNewFile,BufRead,BufReadPost *.postcss set syntax=css
+" Brewfile is basically Ruby
+autocmd BufNewFile,BufRead,BufReadPost Brewfile set syntax=ruby
+" Dockerfiles may have modifiers
+autocmd BufNewFile,BufRead,BufReadPost Dockerfile* set syntax=Dockerfile
+" Dotfiles without dot prefix is still dotfile
+autocmd BufNewFile,BufRead,BufReadPost gitconfig set syntax=.gitconfig
+autocmd BufNewFile,BufRead,BufReadPost tmux.conf set syntax=tmux
+autocmd BufNewFile,BufRead,BufReadPost vimrc set syntax=vim
+autocmd BufNewFile,BufRead,BufReadPost zshrc set syntax=zsh
+
+" TypeScript configuration isn't regular JSON as it allows comments
+autocmd BufNewFile,BufRead,BufReadPost tsconfig.json set syntax=typescript
+
+" Auto-read after switching focus
+autocmd FocusGained,BufEnter * :silent! !
+autocmd FocusLost,WinLeave * :silent! noautocmd w
+
+" Spellcheck English files
+autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd FileType gitcommit setlocal spell
+set complete+=kspell
+
+" Swapfile and enable backups
+silent !mkdir $HOME/.vim > /dev/null 2>&1
+silent !mkdir $HOME/.vim/backups > /dev/null 2>&1
+silent !mkdir $HOME/.vim/undo > /dev/null 2>&1
+silent !mkdir $HOME/.vim/swaps > /dev/null 2>&1
+set backup
+set dir=$HOME/.vim/swaps//
+set backupdir=$HOME/.vim/backups//
+
+" Enable undo storage
+set undofile
+set undodir=$HOME/.vim/undo//
+set undolevels=5000
+set undoreload=50000
+let myvar = "set backupext=_". strftime("--%y%m%d--%Hh%M")
+execute myvar
+
+" NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" ALE
+let g:ale_linters = {
+      \ 'ruby': ['rubocop'],
+      \ 'eruby': ['erblint'],
+      \ 'go': ['gofmt'],
+      \ 'yaml': ['prettier'],
+      \ 'terraform': ['terraform'],
+      \ 'css': ['prettier'],
+      \ 'html': ['prettier'],
+      \ 'javascript': ['biome', 'eslint', 'prettier'],
+      \ 'typescript': ['biome', 'eslint', 'prettier', 'deno'],
+      \ 'javascriptreact': ['eslint', 'prettier'],
+      \ 'typescriptreact': ['eslint', 'prettier', 'deno'],
+      \ 'tf': ['terraform'],
+      \ 'svelte': ['svelteserver', 'prettier'],
+      \ 'cr': ['crystal'],
+      \ 'python': ['ruff', 'black'],
+      \ }
+let g:ale_fixers = {
+      \ 'ruby': ['rubocop'],
+      \ 'eruby': ['erblint'],
+      \ 'go': ['gofmt'],
+      \ 'yaml': ['biome', 'prettier'],
+      \ 'terraform': ['terraform'],
+      \ 'css': ['biome', 'prettier'],
+      \ 'html': ['biome', 'prettier'],
+      \ 'javascript': ['biome', 'eslint', 'prettier'],
+      \ 'typescript': ['biome', 'eslint', 'prettier', 'deno'],
+      \ 'javascriptreact': ['eslint', 'prettier'],
+      \ 'typescriptreact': ['eslint', 'prettier'],
+      \ 'tf': ['terraform'],
+      \ 'svelte': ['prettier'],
+      \ 'cr': ['crystal'],
+      \ 'python': ['ruff', 'black'],
+      \ }
+
+let g:ale_fix_on_save = 1
+let g:ale_svelte_svelteserver_executable = 'npx svelteserver'
+let g:ale_ruby_rubocop_executable = 'bundle'
+
+let g:copilot_filetypes = {
+      \ '.env': v:false,
+      \ }
