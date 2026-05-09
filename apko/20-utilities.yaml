@@ -11,7 +11,8 @@ contents:
     - git
     - hivemind
     - just
-    - jj
+    # Too slow to run in GitHub Actions
+    # - jj
     - jq
     - neovim
     - ripgrep
