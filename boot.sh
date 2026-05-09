@@ -14,6 +14,13 @@ done
 [[ -s "\$HOME/.bashrc" ]] && source "\$HOME/.bashrc"
 EOF
 
+mkdir -p "${HOME}/.config/nvim"
+cat <<EOF >"${HOME}.config/nvim/init.vim"
+  set runtimepath^=~/.vim runtimepath+=~/.vim/after
+  let &packpath=&runtimepath
+  source ~/.vimrc
+EOF
+
 arch=$(uname -m)
 rustarch=""
 case "${arch}" in
