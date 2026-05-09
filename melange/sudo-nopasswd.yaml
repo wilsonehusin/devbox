@@ -2,7 +2,7 @@ package:
   name: sudo-nopasswd
   version: 0
   epoch: 1
-  description: Allow toolbx user to run sudo without password
+  description: Allow wheel members to run sudo without password
   copyright:
     - license: Not-Applicable
   target-architecture:
@@ -28,4 +28,4 @@ pipeline:
       # Ensure directory exists
       mkdir -p ${{targets.contextdir}}/etc/sudoers.d
       # Allow sudo with out password
-      echo "%wheel ALL=(ALL) NOPASSWD: ALL" > ${{targets.contextdir}}/etc/sudoers.d/toolbx
+      echo "%wheel ALL=(ALL) NOPASSWD: ALL" > ${{targets.contextdir}}/etc/sudoers.d/nopasswd

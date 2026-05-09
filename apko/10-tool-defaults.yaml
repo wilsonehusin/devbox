@@ -76,6 +76,11 @@ accounts:
   groups:
     - groupname: dev
       gid: 10000
+    - groupname: wheel
+      gid: 10
+      members:
+        - root
+        - dev
   users:
     - username: dev
       uid: 10000
