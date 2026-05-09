@@ -20,6 +20,8 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath=&runtimepath
 source ~/.vimrc
 EOF
+
+mkdir -p "${HOME}/.config/jj"
 cat <<-EOF >"${HOME}/.config/jj/config.toml"
 "\$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
