@@ -26,7 +26,9 @@ export KIND_EXPERIMENTAL_PROVIDER=podman
 export FZF_DEFAULT_COMMAND="ag --files-with-matches --smart-case --hidden --ignore .git"
 export FZF_DEFAULT_OPTS="--height 40% --layout reverse --border"
 
-# --- Path Logic ---
+# --- Path ---
+local_bin="${HOME}/.local/bin:${PATH}"
+export PATH="${local_bin}"
 if type go &>/dev/null
 then
   with_go_path="$(go env GOPATH)/bin:${PATH}"
