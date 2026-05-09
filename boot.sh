@@ -22,7 +22,7 @@ source ~/.vimrc
 EOF
 
 mkdir -p "${HOME}/.config/jj"
-cat <<-EOF >"${HOME}/.config/jj/config.toml"
+cat <<EOF >"${HOME}/.config/jj/config.toml"
 "\$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
 [user]
