@@ -15,7 +15,7 @@ done
 EOF
 
 mkdir -p "${HOME}/.config/nvim"
-cat <<EOF >"${HOME}.config/nvim/init.vim"
+cat <<EOF >"${HOME}/.config/nvim/init.vim"
   set runtimepath^=~/.vim runtimepath+=~/.vim/after
   let &packpath=&runtimepath
   source ~/.vimrc
