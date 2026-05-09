@@ -11,6 +11,7 @@ contents:
     - git
     - hivemind
     - just
+    - jj
     - jq
     - neovim
     - ripgrep
