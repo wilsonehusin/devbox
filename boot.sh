@@ -57,5 +57,6 @@ if [[ "${rustarch}" != "skip" ]]; then
   tar -zxvf /tmp/jj.tar.gz ./jj
   mkdir -p "${HOME}/.local/bin"
   mv ./jj "${HOME}/.local/bin/"
-
 fi
+
+nvim --headless +PlugInstall +qall
