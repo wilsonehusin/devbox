@@ -4,7 +4,7 @@ set -euo pipefail
 
 base_url="https://raw.githubusercontent.com/wilsonehusin/devbox/refs/heads/main"
 
-dotfiles=("bashrc" "vimrc")
+dotfiles=("bashrc" "vimrc" "rgignore")
 for f in "${dotfiles[@]}"; do
   curl -o "${HOME}/.${f}" "${base_url}/dot/${f}"
   chown "${USER}:${USER}" "${HOME}/.${f}" 
