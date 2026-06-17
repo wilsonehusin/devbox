@@ -60,3 +60,6 @@ if [[ "${rustarch}" != "skip" ]]; then
 fi
 
 nvim --headless +PlugInstall +qall
+
+# Antigravity CLI
+curl -fsSL https://antigravity.google/cli/install.sh | bash
