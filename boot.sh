@@ -61,7 +61,7 @@ if [[ "${rustarch}" != "skip" ]]; then
   mv ./jj "${HOME}/.local/bin/"
 
   curl -Lo /tmp/temporal.tar.gz "https://temporal.download/cli/archive/latest?platform=linux&arch=${goarch}"
-  tar -zxvf /tmp/temporal.tar.gz ./temporal
+  tar -zxvf /tmp/temporal.tar.gz temporal
   mv ./temporal "${HOME}/.local/bin/"
 fi
 
