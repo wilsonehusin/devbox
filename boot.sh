@@ -42,21 +42,27 @@ rustarch=""
 case "${arch}" in
   "x86_64")
     rustarch="x86_64"
+    goarch="amd64"
     ;;
   "arm64")
     rustarch="aarch64"
+    goarch="arm64"
     ;;
   *)
     rustarch="skip"
     ;;
 esac
 
+mkdir -p "${HOME}/.local/bin"
 if [[ "${rustarch}" != "skip" ]]; then
   jj_version="0.41.0"
   curl -Lo /tmp/jj.tar.gz "https://github.com/jj-vcs/jj/releases/download/v${jj_version}/jj-v${jj_version}-${rustarch}-unknown-linux-musl.tar.gz"
   tar -zxvf /tmp/jj.tar.gz ./jj
-  mkdir -p "${HOME}/.local/bin"
   mv ./jj "${HOME}/.local/bin/"
+
+  curl -Lo /tmp/temporal.tar.gz "https://temporal.download/cli/archive/latest?platform=linux&arch=${goarch}"
+  tar -zxvf /tmp/temporal.tar.gz ./temporal
+  mv ./temporal "${HOME}/.local/bin/"
 fi
 
 nvim --headless +PlugInstall +qall
